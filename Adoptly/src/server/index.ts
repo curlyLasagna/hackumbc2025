@@ -1,3 +1,8 @@
+import dotenv from "dotenv";
+
+// Load environment variables before any other imports
+dotenv.config();
+
 import { createServer } from "./server";
 
 const port = 3000;
