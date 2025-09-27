@@ -3,10 +3,11 @@ import { ai, GEMINI_DEFAULT_MODEL } from "../gemini";
 import { getAnimalTypes, getAnimalTypesDeclaration } from "./animal-types";
 import { getPet, getPetFunctionDeclaration } from "./get-pet";
 
-export const pf = new petfinder.Client({
-  apiKey: import.meta.env.VITE_PF_API_KEY,
-  secret: import.meta.env.VITE_PF_SECRET,
+export const pf = new Client({
+  apiKey: process.env.PF_API_KEY ?? "",
+  secret: process.env.PF_SECRET ?? "",
 });
+
 const functions = {
   getPet,
   getAnimalTypes,

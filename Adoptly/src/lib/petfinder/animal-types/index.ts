@@ -1,4 +1,4 @@
-import { type FunctionDeclaration } from "@google/genai/web";
+import { type FunctionDeclaration } from "@google/genai";
 import { pf } from "..";
 
 export const getAnimalTypesDeclaration: FunctionDeclaration = {
