@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/genai": "^1.21.0",
+    "@petfinder/petfinder-js": "^1.0.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
