@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { OutputCarousel } from "./components/OutputCarousel";
+import { UserInput } from "./components/UserInput";
+import { getPetGemini } from "./lib/petfinder";
+import { getPet } from "./lib/petfinder/get-pet";
+import { useCallback, useState } from "react";
+import type { Animal } from "./types/Animal";
+
+const backgroundImg =
+  "https://images.squarespace-cdn.com/content/v1/5e950775bee93b4c91e3d327/5752df7c-0739-4192-abb1-8a18da95a64d/Website+Background.png";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [carouselData, setCarouselData] = useState<Animal[]>([]);
+
+  const handleUserInput = async (prompt: string) => {
+    setIsGenerating(true);
+    try {
+      const geminiResult = await getPetGemini(prompt);
+      const args = geminiResult?.fn?.args;
+      if (args) {
+        const petRes = (await getPet(args)) as Animal[];
+        setCarouselData(() => [...petRes]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    setIsGenerating(false);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <div
+        className="fixed inset-0 -z-10 pointer-events-none"
+        style={{
+          backgroundImage: `url(${backgroundImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "right bottom",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#e2cf79",
+        }}
+      />
+
+      <UserInput onSubmit={handleUserInput} isGenerating={isGenerating} />
+      <OutputCarousel animals={carouselData} />
+    </div>
+  );
 }
 
-export default App
+export default App;

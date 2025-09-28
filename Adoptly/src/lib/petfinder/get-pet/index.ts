@@ -1,4 +1,5 @@
 import { Type, type FunctionDeclaration } from "@google/genai";
+import { type SearchArgs } from "@/types/SearchArgs";
 import { pf } from "..";
 
 export const getPetFunctionDeclaration = {
@@ -7,7 +8,7 @@ export const getPetFunctionDeclaration = {
   parameters: {
     type: Type.OBJECT,
     properties: {
-      animal_types: {
+      type: {
         type: Type.STRING,
         description: "The kind of animal this user wants.",
       },
@@ -20,10 +21,22 @@ export const getPetFunctionDeclaration = {
         description:
           "Size of animal. xsmall,small,medium,large. Comma separated if multiple values",
       },
-      limit: {
-        type: Type.INTEGER,
-        description: "How many animals to get.",
+      gender: {
+        type: Type.STRING,
+        description: "Gender of an animal. Boy or girl"
       },
+      color: {
+        type: Type.STRING,
+        description: "Color of an animal"
+      },
+      house_trained: {
+        type: Type.BOOLEAN,
+        description: "Is house trained or not"
+      },
+      good_with_children: {
+        type: Type.BOOLEAN,
+        description: "Is good with children"
+      }
     },
   },
 } satisfies FunctionDeclaration;
@@ -32,14 +45,17 @@ type GetPetFunctionDeclaration =
   typeof getPetFunctionDeclaration.parameters.properties;
 
 export async function getPet(args: GetPetFunctionDeclaration) {
-  await pf.authenticate();
-  let response;
+  // await pf.authenticate();
+  let response: any;
   try {
     response = await pf.animal.search({
-      type: args?.animal_types,
+      type: args?.type,
       breed: args?.breed,
       size: args?.size,
-      limit: args?.limit,
+      gender: args?.gender,
+      color: args?.color,
+      house_trained: args?.house_trained,
+      good_with_children: args?.good_with_children,
       location: "Baltimore, Maryland",
     });
   } catch (err) {
