@@ -1,4 +1,5 @@
 import { Type, type FunctionDeclaration } from "@google/genai";
+import { type SearchArgs } from "@/types/SearchArgs";
 import { pf } from "..";
 
 export const getPetFunctionDeclaration = {
@@ -45,7 +46,7 @@ type GetPetFunctionDeclaration =
 
 export async function getPet(args: GetPetFunctionDeclaration) {
   // await pf.authenticate();
-  let response;
+  let response: any;
   try {
     response = await pf.animal.search({
       type: args?.type,

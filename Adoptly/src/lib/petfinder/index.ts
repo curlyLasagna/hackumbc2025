@@ -1,17 +1,11 @@
 import { Client } from "@petfinder/petfinder-js";
 import { ai, GEMINI_DEFAULT_MODEL } from "../gemini";
-import { getAnimalTypes } from "./animal-types";
-import { getPet, getPetFunctionDeclaration } from "./get-pet";
+import { getPetFunctionDeclaration } from "./get-pet";
 
 export const pf = new Client({
   apiKey: import.meta.env.VITE_PF_API_KEY,
   secret: import.meta.env.VITE_PF_SECRET
 });
-
-const functions = {
-  getPet,
-  getAnimalTypes,
-};
 
 export async function getPetGemini(prompt: string) {
   const res = await ai.models.generateContent({
@@ -31,5 +25,4 @@ export async function getPetGemini(prompt: string) {
     }
   })
   return { fn: res.functionCalls && res.functionCalls.length > 0 ? res.functionCalls[0] : undefined };
-
 }
