@@ -20,10 +20,22 @@ export const getPetFunctionDeclaration = {
         description:
           "Size of animal. xsmall,small,medium,large. Comma separated if multiple values",
       },
-      limit: {
-        type: Type.INTEGER,
-        description: "How many animals to get.",
+      gender: {
+        type: Type.STRING,
+        description: "Gender of an animal. Boy or girl"
       },
+      color: {
+        type: Type.STRING,
+        description: "Color of an animal"
+      },
+      house_trained: {
+        type: Type.BOOLEAN,
+        description: "Is house trained or not"
+      },
+      good_with_children: {
+        type: Type.BOOLEAN,
+        description: "Is good with children"
+      }
     },
   },
 } satisfies FunctionDeclaration;
@@ -39,7 +51,10 @@ export async function getPet(args: GetPetFunctionDeclaration) {
       type: args?.animal_types,
       breed: args?.breed,
       size: args?.size,
-      limit: args?.limit,
+      gender: args?.gender,
+      color: args?.color,
+      house_trained: args?.house_trained,
+      good_with_children: args?.good_with_children,
       location: "Baltimore, Maryland",
     });
   } catch (err) {
