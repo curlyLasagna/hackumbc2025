@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SpeechRecorder from './components/SpeechRecorder'
 import PetGallery from "./components/PetGallery";
+import { OutputCarousel } from './components/OutputCarousel';
 function App() {
 
   return (
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SpeechRecorder />} />
         <Route path="/gallery" element={<PetGallery />} />
+        <Route path="/carr" element= {<OutputCarousel/>}/>
       </Routes>
     </Router>
   )
