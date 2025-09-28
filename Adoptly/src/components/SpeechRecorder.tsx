@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect} from 'react';
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
@@ -13,12 +14,16 @@ function SpeechRecorder() {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
+  const [text, setText] = useState('')
+  useEffect(() => {
+      setText(transcript);
+    }, [transcript]);
   if (!browserSupportsSpeechRecognition) {
     return <span>Your browser does not support speech recognition.</span>;
   }
 
   const handleSave = () => {
-    localStorage.setItem('lastTranscript', transcript);
+    localStorage.setItem('lastTranscript', text);
 
   };
 
@@ -40,8 +45,8 @@ function SpeechRecorder() {
         <input
           type="text"
           placeholder="Tap the mic and share the pet you’re ready to welcome home"
-          value={transcript}
-          readOnly
+          value={text}
+          onChange={(e) => setText(e.target.value)} 
         />
         <button onClick={toggleListening} className="mic-btn">
           <FaMicrophone />
@@ -49,8 +54,8 @@ function SpeechRecorder() {
       </div>
 
       <div className="button-group">
-        <button onClick={resetTranscript}>Reset</button>
-        <button onClick={handleSave} disabled={!transcript}>Save</button>
+        <button onClick={()=>{resetTranscript(); setText('');}}>Reset</button>
+        <button onClick={handleSave} >Save</button>
       </div>
     </div>
   );
