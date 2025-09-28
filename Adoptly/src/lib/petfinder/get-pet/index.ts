@@ -7,7 +7,7 @@ export const getPetFunctionDeclaration = {
   parameters: {
     type: Type.OBJECT,
     properties: {
-      animal_types: {
+      type: {
         type: Type.STRING,
         description: "The kind of animal this user wants.",
       },
@@ -44,11 +44,11 @@ type GetPetFunctionDeclaration =
   typeof getPetFunctionDeclaration.parameters.properties;
 
 export async function getPet(args: GetPetFunctionDeclaration) {
-  await pf.authenticate();
+  // await pf.authenticate();
   let response;
   try {
     response = await pf.animal.search({
-      type: args?.animal_types,
+      type: args?.type,
       breed: args?.breed,
       size: args?.size,
       gender: args?.gender,

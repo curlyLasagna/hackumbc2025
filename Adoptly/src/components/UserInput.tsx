@@ -1,26 +1,23 @@
 import { useState } from "react";
 import { MessageInput } from "./ui/message-input";
 import { ChatForm } from "./ui/chat";
-import { getPetGemini } from "@/lib/petfinder";
 
-export function UserInput() {
+export function UserInput({ onSubmit, isGenerating }: {
+  onSubmit: (prompt: string) => void,
+  isGenerating: boolean
+}) {
   const [userPrompt, setUserPrompt] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event?.preventDefault?.()
+    onSubmit(userPrompt)
+    setUserPrompt("")
+  }
 
   return (
     <ChatForm
       isPending={false}
-      handleSubmit={async (event) => {
-        event?.preventDefault?.()
-        setIsGenerating(true)
-        try {
-          let parts = await getPetGemini(userPrompt);
-          console.log(parts);
-          setUserPrompt("")
-        } finally {
-          setIsGenerating(false);
-        }
-      }}
+      handleSubmit={handleSubmit}
     >
       {() => (
         <MessageInput
